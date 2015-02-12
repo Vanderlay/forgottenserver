@@ -661,6 +661,9 @@ class Player final : public Creature, public Cylinder
 		float getAttackFactor() const final;
 		float getDefenseFactor() const final;
 
+		//combat modifications from items
+		int32_t getBonusStats(combatBonusTypes_t bonusType) const;
+
 		void addInFightTicks(bool pzlock = false);
 
 		uint64_t getGainedExperience(Creature* attacker) const final;

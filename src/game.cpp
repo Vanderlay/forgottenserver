@@ -3945,6 +3945,15 @@ bool Game::combatChangeHealth(Creature* attacker, Creature* target, CombatDamage
 			}
 		}
 
+		if (attackerPlayer) {
+			if (int32_t bonusHealing = attackerPlayer->getBonusStats(BONUS_FLAT_HEALING)) {
+				damage.primary.value += bonusHealing;
+			}
+			if (int32_t bonusPercentHealing = attackerPlayer->getBonusStats(BONUS_PERCENT_HEALING)) {
+				damage.primary.value += damage.primary.value * (bonusPercentHealing / 100.);
+			}
+		}
+
 		if (damage.origin != ORIGIN_NONE) {
 			const auto& events = target->getCreatureEvents(CREATURE_EVENT_HEALTHCHANGE);
 			if (!events.empty()) {
@@ -4030,6 +4039,17 @@ bool Game::combatChangeHealth(Creature* attacker, Creature* target, CombatDamage
 
 			if (attackerPlayer->getSkull() == SKULL_BLACK && attackerPlayer->getSkullClient(targetPlayer) == SKULL_NONE) {
 				return false;
+			}
+		}
+
+		if (attackerPlayer) {
+			if (int32_t bonusDamage = attackerPlayer->getBonusStats(BONUS_FLAT_DAMAGE)) {
+				damage.primary.value += bonusDamage;
+				damage.secondary.value += bonusDamage;
+			}
+			if (int32_t bonusPercentDamage = attackerPlayer->getBonusStats(BONUS_PERCENT_DAMAGE)) {
+				damage.primary.value += damage.primary.value * (bonusPercentDamage / 100.);
+				damage.secondary.value += damage.secondary.value * (bonusPercentDamage / 100.);
 			}
 		}
 

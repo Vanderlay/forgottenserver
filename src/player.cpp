@@ -422,6 +422,45 @@ int32_t Player::getArmor() const
 	return static_cast<int32_t>(armor * vocation->armorMultiplier);
 }
 
+int32_t Player::getBonusStats(combatBonusTypes_t bonusType) const
+{
+	int32_t bonus = 0;
+	
+	for (uint8_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_LAST; slot++) {
+		Item* item = inventory[slot];
+		if (item) {
+			const ItemType& it = Item::items[item->getID()];
+			switch (bonusType) {
+				case BONUS_FLAT_DAMAGE:
+					if (int32_t damage = it.abilities->stats[STAT_FLAT_DAMAGE]) {
+						bonus += damage;
+					}
+					break;
+				case BONUS_PERCENT_DAMAGE:
+					if (int32_t damagePercent = it.abilities->statsPercent[STAT_FLAT_DAMAGE]) {
+						bonus += damagePercent;
+					}
+					break;
+				case BONUS_FLAT_HEALING:
+					if (int32_t healing = it.abilities->stats[STAT_FLAT_HEALING]) {
+						bonus += healing;
+					}
+					break;
+				case BONUS_PERCENT_HEALING:
+					if (int32_t healingPercent = it.abilities->statsPercent[STAT_FLAT_HEALING]) {
+						bonus += healingPercent;
+					}
+					break;
+				default:
+					std::cout << "[Error::Warning] Incorrect given bonusType argument in <player.cpp::getBonusStats>" << std::endl;
+					break;
+			}
+		}
+	}
+
+	return bonus;
+}
+
 void Player::getShieldAndWeapon(const Item*& shield, const Item*& weapon) const
 {
 	shield = nullptr;

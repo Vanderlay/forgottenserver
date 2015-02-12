@@ -737,6 +737,14 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 			it.getAbilities().stats[STAT_MAGICPOINTS] = pugi::cast<int32_t>(valueAttribute.value());
 		} else if (tmpStrValue == "magicpointspercent") {
 			it.getAbilities().statsPercent[STAT_MAGICPOINTS] = pugi::cast<int32_t>(valueAttribute.value());
+		} else if (tmpStrValue == "increasedamagevalue") {
+			it.getAbilities().stats[STAT_FLAT_DAMAGE] = pugi::cast<int32_t>(valueAttribute.value());
+		} else if (tmpStrValue == "increasedamagepercent") {
+			it.getAbilities().statsPercent[STAT_FLAT_DAMAGE] = pugi::cast<int32_t>(valueAttribute.value());
+		} else if (tmpStrValue == "increasehealingvalue") {
+			it.getAbilities().stats[STAT_FLAT_HEALING] = pugi::cast<int32_t>(valueAttribute.value());
+		} else if (tmpStrValue == "increasehealingpercent") {
+			it.getAbilities().statsPercent[STAT_FLAT_HEALING] = pugi::cast<int32_t>(valueAttribute.value());
 		} else if (tmpStrValue == "fieldabsorbpercentenergy") {
 			it.getAbilities().fieldAbsorbPercent[combatTypeToIndex(COMBAT_ENERGYDAMAGE)] += pugi::cast<int16_t>(valueAttribute.value());
 		} else if (tmpStrValue == "fieldabsorbpercentfire") {
